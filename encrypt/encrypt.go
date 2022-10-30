@@ -4,39 +4,48 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
-	"encoding/hex"
+	"fmt"
 	"io"
+	"io/ioutil"
+	"os"
 )
 
-func EncryptAES(key []byte, plaintext string) string {
-	// create cipher
-	c, err := aes.NewCipher(key)
-	CheckError(err)
-	// al	locate space for ciphered data
-	out := make([]byte, len(plaintext))
-	// encrypt
-	c.Encrypt(out, []byte(plaintext))
-	// return hex string
-	return hex.EncodeToString(out)
-}
-
-func EncryptAESImage(plainData, secret []byte) (cipherData []byte) {
-	block, _ := aes.NewCipher(secret)
+func EncryptFile(file []byte, key []byte, filename string, id string) (bool, error) {
+	// The key should be 16 bytes (AES-128), 24 bytes (AES-192) or
+	// 32 bytes (AES-256)
+	fmt.Printf("Encryption...\n")
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return false, err
+	}
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return
+		return false, err
 	}
+	// Never use more than 2^32 random nonces with a given key
+	// because of the risk of repeat.
 	nonce := make([]byte, gcm.NonceSize())
-	_, err = io.ReadFull(rand.Reader, nonce)
-	if err != nil {
-		return
+	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
+		return false, err
 	}
-	cipherData = gcm.Seal(
-		nonce,
-		nonce,
-		plainData,
-		nil)
-	return
+	// TODO create directory
+	errM := os.MkdirAll("files/encrypted/"+id, os.ModePerm)
+	if errM != nil {
+		fmt.Println("Error during directory creation")
+		fmt.Println(errM.Error())
+		return false, errM
+	}
+	filePath := "files/encrypted/" + id + "/" + filename + ".bin"
+	ciphertext := gcm.Seal(nonce, nonce, file, nil)
+	// Save back to file
+	err = ioutil.WriteFile(filePath, ciphertext, 0777)
+	if err != nil {
+		fmt.Println("Error during file writing: ")
+		fmt.Printf("%s\n", filePath)
+		return false, err
+	}
+	fmt.Printf("File %s encrypted successfully \n", filename)
+	return true, nil
 }
 
 func CheckError(err error) {

@@ -1,41 +1,62 @@
 package decrypt
 
 import (
+	"archive/zip"
 	"crypto/aes"
 	"crypto/cipher"
-	"encoding/hex"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"os"
 )
 
-func DecryptAES(key []byte, ct string) {
-	ciphertext, _ := hex.DecodeString(ct)
-
-	c, err := aes.NewCipher(key)
-	CheckError(err)
-
-	pt := make([]byte, len(ciphertext))
-	c.Decrypt(pt, ciphertext)
-
-	s := string(pt[:])
-	fmt.Println("DECRYPTED:", s)
-}
-
-func DecryptAESImage(cipherData, secret []byte) (plainData []byte) {
-	block, err := aes.NewCipher(secret)
+func DecryptFile(file []byte, filename string, secret_key []byte) ([]byte, error) {
+	// The key should be 16 bytes (AES-128), 24 bytes (AES-192) or
+	// 32 bytes (AES-256)
+	block, err := aes.NewCipher(secret_key)
 	if err != nil {
-		return
+		fmt.Println("Erreur lors du déchiffrage du fichier")
+		fmt.Println(err.Error())
 	}
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		return
+		fmt.Println("Erreur lors du déchiffrage du fichier")
+		fmt.Println(err.Error())
 	}
-	nonceSize := gcm.NonceSize()
-	nonce, ciphertext := cipherData[:nonceSize], cipherData[nonceSize:]
-	plainData, err = gcm.Open(nil, nonce, ciphertext, nil)
+	nonce := file[:gcm.NonceSize()]
+	file = file[gcm.NonceSize():]
+	plaintext, err := gcm.Open(nil, nonce, file, nil)
 	if err != nil {
-		return
+		fmt.Println("Erreur lors du déchiffrage du fichier")
+		fmt.Println(err.Error())
+		return nil, err
 	}
-	return
+	return plaintext, nil
+}
+
+func CreateZip(path string, id string) {
+	archive, err := os.Create(path + ".zip")
+	if err != nil {
+		panic(err)
+	}
+	defer archive.Close()
+	zipWriter := zip.NewWriter(archive)
+	files, err := ioutil.ReadDir(path)
+	for _, file := range files {
+		f, err := os.Open(path + "/" + file.Name())
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+		w, err := zipWriter.Create(file.Name())
+		if err != nil {
+			panic(err)
+		}
+		if _, err := io.Copy(w, f); err != nil {
+			panic(err)
+		}
+	}
+	zipWriter.Close()
 }
 
 func CheckError(err error) {
