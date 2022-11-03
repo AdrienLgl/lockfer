@@ -1,0 +1,38 @@
+<div class="upload-container">
+    <h1>Let's go !</h1>
+    <p-fileUpload #upload class="upload" [customUpload]="true" (uploadHandler)="uploadFiles($event)"
+        name="multiplefiles" (onSelect)="selectFile($event)" (onUpload)="onUpload($event)" [multiple]="multiple"
+        accept="image/*, video/*" [maxFileSize]="maxSize">
+        <ng-template pTemplate="content">
+            <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+            <div class="no-files" *ngIf="uploadedFiles.length <= 0">
+                <i class="pi pi-file"></i>
+                <p>Please, select your files</p>
+            </div>
+        </ng-template>
+    </p-fileUpload>
+</div>
+
+<p-dialog #dialog class="dialog" header="Share your encrypted files now !" [draggable]="false"
+    [(visible)]="displayPosition" [style]="{width: '50vw'}">
+
+    <div class="flex">
+        <div>
+
+            <p>You can now share your secured files with your correspondents for a period of 24 hours. After this
+                period,
+                your files will be deleted from our servers according to our terms of use.</p>
+
+            <p>Do not hesitate to leave us your opinion on our service!</p>
+
+        </div>
+
+        <img src="assets/imgs/share.svg" alt="share">
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button class="share" label="Copy sharing link" icon="pi pi-copy" iconPos="right"
+            [cdkCopyToClipboard]="'http://127.0.0.1:4200/decrypt/' + token"></p-button>
+        <p-button icon="pi pi-check" (click)="displayPosition=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,54 @@
+<div class="loader-container dialog">
+
+    <div class="navbar flex">
+
+        <img class="logo" src="assets/imgs/Logo_text_v2.svg" alt="logo">
+
+        <!-- <div class="flex menu">
+            <a>Home</a>
+            <a>Upload</a>
+        </div> -->
+
+        <button pButton type="button" label="Get started" class="p-button-sm get-started"></button>
+
+    </div>
+
+    <div class="loading" *ngIf="decrypting">
+        <span class="loader"></span>
+
+        <h2 class="description">
+            Decrypting your files...
+        </h2>
+    </div>
+
+    <div class="ready-container" *ngIf="ready && !error">
+        <i class="pi pi-check"></i>
+
+        <h2 class="ready">Your archive is ready to download !</h2>
+
+        <p-button class="share" label="Download" icon="pi pi-download" iconPos="right" (onClick)="downloadFiles()">
+        </p-button>
+    </div>
+
+    <div class="error-container" *ngIf="error">
+        <i class="pi pi-times-circle"></i>
+
+        <h2 class="error">Error during files decryption</h2>
+
+        <p>{{errorMessage}}
+        </p>
+
+        <div class="flex">
+            <p-button class="share" label="Retry" icon="pi pi-sync" iconPos="right"></p-button>
+
+            <button pButton type="button" class="p-button home" label="Go home" icon="pi pi-arrow-right" iconPos="right"
+                [routerLink]="'home'"></button>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

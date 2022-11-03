@@ -1,0 +1,46 @@
+.upload-container {
+
+    margin-top: 5em;
+    padding-bottom: 10em;
+
+    h1 {
+        text-align: center;
+    }
+
+    .upload {
+        display: block;
+        margin: auto;
+        margin-top: 5em;
+    }
+
+    .no-files {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        i {
+            font-size: 40px;
+        }
+    }
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    p {
+        flex: 1;
+        padding-right: 1em;
+    }
+
+    img {
+        width: 30%;
+        min-width: 10em;
+    }
+}
+
+.share {
+    float: left;
+}

@@ -1,0 +1,91 @@
+/* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(assets/fonts/Roboto-Regular.ttf) format("opentype");
+  }
+@font-face {
+    font-family: Roboto-Medium;
+    src: url(assets/fonts/Roboto-Medium.ttf) format("opentype");
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto-Regular', sans-serif;
+    height: 100%;
+}
+
+body {
+    background-color: #081C15;
+    color: #B7E4C7;
+}
+
+.full-container {
+    width: 100%;
+    height: auto;
+}
+
+.p-fileupload {
+    width: 60%;
+    margin: auto;
+}
+
+.p-fileupload .p-fileupload-buttonbar {
+    background-color: #1B4332 !important;
+    border: 1px solid #081C15 !important;
+}
+
+.p-fileupload .p-fileupload-content {
+    background-color: #B7E4C7 !important;
+}
+
+.upload .p-button {
+    background-color: #40916C;
+    border-color: #40916C;
+}
+
+.upload .p-button:hover {
+    background-color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+}
+
+.dialog .p-button {
+    background-color: #2D6A4F;
+    border-color: #40916C;
+}
+
+.dialog .share .p-button:hover {
+    background-color: #1B4332 !important;
+    border-color: #40916C;
+}
+
+.p-button {
+    border: none !important;
+    outline: none !important;
+}
+
+.p-button:focus, .p-button:enabled:focus{
+    box-shadow:none !important;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+}
+
+.flex .p-button:hover {
+    background-color: #2D6A4F !important;
+    border-color: #2D6A4F !important;
+}
+
+.p-progressbar .p-progressbar-value {
+    background-color: #40916C !important;
+}
+
+.p-dialog .p-dialog-footer, .p-dialog .p-dialog-content, .p-dialog .p-dialog-header {
+    background-color: #40916C !important;
+    color: white !important;
+}
+
+.p-button.p-button-text {
+    color: #1B4332 !important;
+}
