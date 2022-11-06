@@ -31,18 +31,40 @@
     </div>
 
     <div class="error-container" *ngIf="error">
-        <i class="pi pi-times-circle"></i>
 
-        <h2 class="error">Error during files decryption</h2>
+        <ng-container [ngSwitch]="errorStatus">
 
-        <p>{{errorMessage}}
-        </p>
+            <ng-container *ngSwitchCase="404">
+
+                <img src="assets/imgs/not_found.svg" alt="not found" class="not-found">
+
+                <h2 class="error" style="margin: 0;">Your files has been expired...</h2>
+
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+                <i class="pi pi-times-circle"></i>
+
+                <h2 class="error">Error during files decryption</h2>
+
+                <p>{{errorMessage}}
+                </p>
+
+
+            </ng-container>
+
+        </ng-container>
+
+
+
+
 
         <div class="flex">
-            <p-button class="share" label="Retry" icon="pi pi-sync" iconPos="right"></p-button>
+            <p-button class="share button" label="Retry" icon="pi pi-sync" iconPos="right" (onClick)="retry()">
+            </p-button>
 
-            <button pButton type="button" class="p-button home" label="Go home" icon="pi pi-arrow-right" iconPos="right"
-                [routerLink]="'home'"></button>
+            <button pButton type="button" class="p-button home button" label="Go home" icon="pi pi-arrow-right"
+                iconPos="right" [routerLink]="'home'"></button>
         </div>
 
 

@@ -114,20 +114,25 @@
     margin: 10px 0 0 0;
   }
 
-  p-button {
-    margin-top: 2em;
-  }
 }
 
 .flex {
-  margin-top: 5em;
-
-  p-button {
-    margin: 2em;
-  }
+  margin-top: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 
   .home{
     background-color: #74C69D !important;
     border-color: #74C69D !important;
   }
+
+  .button {
+    margin: 0 2em 0 2em;
+  }
+}
+
+.not-found {
+  width: 20em;
 }

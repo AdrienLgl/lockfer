@@ -12,6 +12,7 @@ export class LoadingComponent implements OnInit, OnDestroy {
 
   ready: boolean = false;
   error: boolean = false;
+  errorStatus: number;
   errorMessage: string = '';
   decrypting: boolean = true;
   sub: Subscription;
@@ -41,11 +42,21 @@ export class LoadingComponent implements OnInit, OnDestroy {
           this.uuid = response.uuid;
         }
       }, (error) => {
+        console.log(error);
         this.decrypting = false;
+        this.errorStatus = error.status;
         this.error = true;
         this.errorMessage = error.message;
       })
     }, 5000);
+  }
+
+  retry(): void {
+    this.decrypting = true;
+    this.error = false;
+    this.errorStatus = 0;
+    this.errorMessage = '';
+    this.decryptFiles();
   }
 
   downloadFiles(): void {
