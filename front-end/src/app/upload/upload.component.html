@@ -1,4 +1,4 @@
-<div class="upload-container">
+<div class="upload-container" id="upload">
     <h1>Let's go !</h1>
     <p-fileUpload #upload class="upload" [customUpload]="true" (uploadHandler)="uploadFiles($event)"
         name="multiplefiles" (onSelect)="selectFile($event)" (onUpload)="onUpload($event)" [multiple]="multiple"

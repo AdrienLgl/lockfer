@@ -8,7 +8,8 @@
             <a>Upload</a>
         </div> -->
 
-        <button pButton type="button" label="Get started" class="p-button-sm get-started"></button>
+        <button pButton [routerLink]="['/home']" fragment="upload" type="button" label="Get started"
+            class="p-button-sm get-started"></button>
 
     </div>
 
@@ -19,9 +20,10 @@
             <p>Lockfer allows you to share confidential or sensitive files. Thanks to its encryption system, your data
                 is no longer readable until your correspondent accesses it.</p>
             <div class="flex btn-container">
-                <button pButton type="button" icon="pi pi-arrow-right" iconPos="right" label="Get started"
-                    class="p-button-sm"></button>
-                <button pButton type="button" label="How it works ?" class="p-button-sm secondary"></button>
+                <button pButton type="button" [routerLink]="['/home']" fragment="upload" icon="pi pi-arrow-right"
+                    iconPos="right" label="Get started" class="p-button-sm"></button>
+                <button pButton type="button" label="How it works ?" [routerLink]="['/home']" fragment="works"
+                    class="p-button-sm secondary"></button>
             </div>
         </div>
 
