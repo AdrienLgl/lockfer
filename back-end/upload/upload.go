@@ -60,16 +60,16 @@ func UploadMultiplesFiles(w http.ResponseWriter, r *http.Request) {
 		ErrorResponse(w, r, "Error during key generation, please retry")
 		return
 	}
-	r.Body = http.MaxBytesReader(w, r.Body, 100*1024*1024) // 100 Mb
+	r.Body = http.MaxBytesReader(w, r.Body, 800*1024*1024) // 100 Mb
 	err := r.ParseMultipartForm(10)                        // grab the multipart form
 	formdata := r.MultipartForm
 	if formdata == nil || formdata.File["multiplefiles"] == nil {
-		ErrorResponse(w, r, "No files to upload")
+		ErrorResponse(w, r, "Too large files, your total encryption should be less than 800MB")
 		return
 	}
 
 	if err != nil {
-		ErrorResponse(w, r, "Too large files, your encryption should be less than 200MB")
+		ErrorResponse(w, r, "Too large files, your total encryption should be less than 800MB")
 		return
 	}
 

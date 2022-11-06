@@ -40,6 +40,17 @@ func cleanDirectory(wg *sync.WaitGroup) {
 					os.RemoveAll("files/encrypted/" + f.Name())
 				}
 			}
+			decryptedFiles, err := ioutil.ReadDir("files/encrypted")
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+			for _, f := range decryptedFiles {
+				if f.ModTime().Before(yesterday) {
+					upload.AddLog("removed old directory", "server")
+					fmt.Println("Removed old directory: " + f.Name())
+					os.RemoveAll("files/decrypted/" + f.Name())
+				}
+			}
 		case <-quit:
 			ticker.Stop()
 			return
